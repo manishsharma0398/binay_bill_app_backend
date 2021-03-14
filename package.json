@@ -4,7 +4,8 @@
   "description": "backend for binay_bill_app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js -L",
+    "dev": "nodemon ./app.js localhost 3080"
   },
   "author": "\"Manish Sharma\"",
   "license": "ISC",
