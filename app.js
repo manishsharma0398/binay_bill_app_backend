@@ -1,39 +1,38 @@
+require("dotenv").config();
+
 const express = require("express"),
-  app = express();
+  app = express(),
+  path = require("path"),
+  port = process.env.PORT || 3080,
+  mongoose = require("mongoose"),
+  log = require("fancy-log");
 
-//   routes
-const productRoutes = require("./routes/productRoutes");
+// parse application/x-www-form-urlencoded
+// app.use(express.urlencoded());
 
-const path = require("path"),
-  bodyParser = require("body-parser");
-port = 3080;
+// parse application/json
+app.use(express.json());
 
-var log = require("fancy-log");
-
-// place holder for the data
-const users = [];
-
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../my-app/build")));
 
-// app.get("/api/users", (req, res) => {
-//   log("api/users called!");
-//   res.json(users);
-// });
-
-// app.post("/api/user", (req, res) => {
-//   const user = req.body.user;
-//   log("Adding user:::::", user);
-//   users.push(user);
-//   res.json("user addedd");
-// });
-
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../my-app/build/index.html"));
-// });
+// routes
+const productRoutes = require("./routes/productRoutes");
 
 app.use("/api/products", productRoutes);
 
 app.listen(port, () => {
   log(`Server listening on the port::${port}`);
+  mongoose.connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eir4t.mongodb.net/binay_bill_app?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }
+  );
 });
+
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../my-app/build/index.html"));
+// });

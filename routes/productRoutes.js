@@ -1,15 +1,15 @@
 const express = require("express"),
-  router = express.Router();
+  router = express.Router(),
+  log = require("fancy-log"),
+  productContrller = require("../controllers/productController");
 
-router.get("/", (req, res) => {
-  console.log("showing all products");
-  res.json({ success: "showing all products" });
-});
+// add new product
+router.post("/add", productContrller.addNewProductController);
 
-router.get("/:id", (req, res) => {
-  console.log("showing one product");
-  console.log(res.params);
-  res.json({ success: "showing one product" });
-});
+// get all products
+router.get("/", productContrller.getAllProducts);
+
+// get one product
+router.get("/:id", productContrller.getAProduct);
 
 module.exports = router;
