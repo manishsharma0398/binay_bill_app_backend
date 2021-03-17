@@ -16,9 +16,10 @@ exports.addNewCustomerController = async (req, res) => {
 
     if (!customer) {
       customer = await new CustomerSchema(newCustomer).save();
+      res.status(201).json(customer);
+    } else {
+      res.status(200).json(customer);
     }
-
-    res.json(customer);
   } catch (err) {
     res
       .status(503)
@@ -29,7 +30,7 @@ exports.addNewCustomerController = async (req, res) => {
 exports.getCustomerDetails = async (req, res) => {
   try {
     let customer = await CustomerSchema.findOne({
-      mobileNo: newCustomer.mobileNo,
+      mobileNo: req.params.id,
     });
 
     if (!customer) {
@@ -38,6 +39,7 @@ exports.getCustomerDetails = async (req, res) => {
       res.status(200).json(customer);
     }
   } catch (err) {
+    log(err);
     res
       .status(503)
       .json({ error: "Something went wrong. Please try again later" });
