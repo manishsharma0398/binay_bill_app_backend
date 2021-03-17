@@ -17,8 +17,10 @@ app.use(express.static(path.join(__dirname, "../my-app/build")));
 
 // routes
 const productRoutes = require("./routes/productRoutes");
+const customerRoutes = require("./routes/customerRoutes");
 
 app.use("/api/products", productRoutes);
+app.use("/api/customers", customerRoutes);
 
 app.listen(port, () => {
   log(`Server listening on the port::${port}`);
