@@ -1,7 +1,7 @@
 const ProductSchema = require("../models/Product"),
   log = require("fancy-log");
 
-module.exports.addNewProductController = async (req, res) => {
+exports.addNewProductController = async (req, res) => {
   const newProduct = new ProductSchema({
     name: req.body.name,
     quantity: req.body.quantity,
@@ -17,7 +17,7 @@ module.exports.addNewProductController = async (req, res) => {
   }
 };
 
-module.exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = async (req, res) => {
   try {
     const products = await ProductSchema.find();
     res.status(200).json(products);
@@ -26,7 +26,7 @@ module.exports.getAllProducts = async (req, res) => {
   }
 };
 
-module.exports.getAProduct = async (req, res) => {
+exports.getAProduct = async (req, res) => {
   try {
     const product = await ProductSchema.findById({ _id: req.params.id });
     res.status(200).json(product);

@@ -6,6 +6,7 @@ const Product = new Schema({
   quantity: { type: Number, required: true },
   unit: { type: String, required: true },
   price: { type: Number, required: true },
+  dateTime: { type: Date, default: Date.now, required: true },
 });
 
 module.exports = mongoose.model("Product", Product);
