@@ -1,6 +1,5 @@
 const express = require("express"),
   router = express.Router(),
-  log = require("fancy-log"),
   productContrller = require("../controllers/productController");
 
 // add new product

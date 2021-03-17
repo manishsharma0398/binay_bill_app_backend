@@ -19,7 +19,27 @@ exports.addNewCustomerController = async (req, res) => {
     }
 
     res.json(customer);
-  } catch (error) {
-    log(error);
+  } catch (err) {
+    res
+      .status(503)
+      .json({ error: "Something went wrong. Please try again later" });
+  }
+};
+
+exports.getCustomerDetails = async (req, res) => {
+  try {
+    let customer = await CustomerSchema.findOne({
+      mobileNo: newCustomer.mobileNo,
+    });
+
+    if (!customer) {
+      res.status(404).json({ error: "No customer found with this mobile no" });
+    } else {
+      res.status(200).json(customer);
+    }
+  } catch (err) {
+    res
+      .status(503)
+      .json({ error: "Something went wrong. Please try again later" });
   }
 };
