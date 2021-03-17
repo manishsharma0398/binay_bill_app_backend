@@ -2,17 +2,24 @@ const CustomerSchema = require("../models/Customer"),
   log = require("fancy-log");
 
 exports.addNewCustomerController = async (req, res) => {
-  const newCustomer = new CustomerSchema({
+  const newCustomer = {
     name: req.body.name,
     gstNo: req.body.gstNo,
     address: req.body.address,
     mobileNo: req.body.mobileNo,
-  });
+  };
 
   try {
-    product = await newCustomer.save();
-    res.status(201).json(product);
+    let customer = await CustomerSchema.findOne({
+      mobileNo: newCustomer.mobileNo,
+    });
+
+    if (!customer) {
+      customer = await new CustomerSchema(newCustomer).save();
+    }
+
+    res.json(customer);
   } catch (error) {
-    console.log(error);
+    log(error);
   }
 };
