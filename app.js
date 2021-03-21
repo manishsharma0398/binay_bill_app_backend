@@ -7,32 +7,36 @@ const express = require("express"),
   mongoose = require("mongoose"),
   log = require("fancy-log");
 
-// parse application/x-www-form-urlencoded
-// app.use(express.urlencoded());
-
 // parse application/json
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "../my-app/build")));
+// app.use(express.static(path.join(__dirname, "../my-app/build")));
 
 // routes
 const productRoutes = require("./routes/productRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 app.use("/api/products", productRoutes);
 app.use("/api/customers", customerRoutes);
+app.use("/api/auth", authRoutes);
 
-app.listen(port, () => {
+app.listen(port, async () => {
   log(`Server listening on the port::${port}`);
-  mongoose.connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eir4t.mongodb.net/binay_bill_app?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    }
-  );
+  try {
+    mongoose.connect(
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eir4t.mongodb.net/binay_bill_app?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+      }
+    );
+    log("successfully connected to mongodb");
+  } catch (err) {
+    log("cannot connect to mongodb. Please try again later");
+  }
 });
 
 // app.get("/", (req, res) => {
